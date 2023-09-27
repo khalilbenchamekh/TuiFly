@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..</DockerfileContext>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.3.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.3.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.3.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\TuiFly.Application\TuiFly.Application.csproj" />
+		<ProjectReference Include="..\TuiFly.Infra.CrossCutting.Bus\TuiFly.Infra.CrossCutting.Bus.csproj" />
+		<ProjectReference Include="..\TuiFly.Infra.CrossCutting.IoC\TuiFly.Infra.CrossCutting.IoC.csproj" />
+	</ItemGroup>
+</Project>

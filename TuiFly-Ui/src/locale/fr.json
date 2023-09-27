@@ -1,0 +1,43 @@
+{
+    "title":"fr",
+    "searchFormular": {
+        "from":  "Ville de départ",
+        "to": "Ville d'arrivée",
+        "timetDep":  "Date de départ",
+        "timetRet":  "Date de retour",
+        "nbPassenger":  "Nombre de passagers",
+        "errorMessage": {
+            "City":  "Les villes sont importantes && devraient être différentes",
+            "time":  "Les dates sont importantes && la date de départ doit être différente sur la date Date de retour"
+        }
+    },
+    "search":  "Rechercher",
+    "reserve": {
+        "airline":  "Ligne aérienne",
+        "flightNumber": {
+            "flightNumber":  "Numéro de vol"
+        },
+        "from":  "Ville de départ",
+        "to":  "Ville d'arrivée",
+        "timetDep":  "Date de départ",
+        "timetRet":  "Date de retour",
+        "price":  "Prix",
+        "booking":  "Réserver"
+    },
+    "passengerError": {
+        "errorPage": "Passenger not saved",
+        "lastName":  "Nom est nécessire",
+        "firstName": "Prénom est nécessire",
+        "email":  "Email est nécessire Exemple@exemple.com"
+    },
+    "passenger": {
+        "name":  "Voyageur",
+        "lastName":  "Nom",
+        "firstName":  "Prénom",
+        "email":  "Email",
+        "submit":  "Sauvegarder",
+        "cancel":  "Annuler"
+    },
+    "passenerErrorReq":  "Annuler",
+    "passenerSuccessReq":  "Sauvegarder"
+}

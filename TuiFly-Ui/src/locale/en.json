@@ -1,0 +1,43 @@
+{
+    "title":"en",
+    "searchFormular": {
+        "from":  "City of departure ",
+        "to":  "City of arrival",
+        "timetDep":  "Departure date",
+        "timetRet": "Return date",
+        "nbPassenger":  "Number of passengers",
+        "errorMessage": {
+            "City":  "Cities is required && should be different",
+            "time":  "Dates is required &&  the departure date must be different on the date Return date"
+        }
+    },
+    "search":"Search",
+    "reserve": {
+        "airline": "Air line",
+        "flightNumber": {
+            "flightNumber":  "Flight Number"
+        },
+        "from":  "City of departure",
+        "to": "City of arrival",
+        "timetDep":  "Departure date",
+        "timetRet":  "Return date",
+        "price":  "Price",
+        "booking":  "Reserve"
+    },
+    "passengerError": {
+        "errorPage": "Voyageur non sauvegardé",
+        "lastName":  "LastName is required",
+        "firstName":  "FirstName is required",
+        "email":  "Email is required Exemple@exemple.com"
+    },
+    "passenger": {
+        "name":  "Passenger",
+        "lastName":  "LastName",
+        "firstName": "FirstName",
+        "email":  "Email",
+        "submit":  "Save",
+        "cancel": "Cancel"
+    },
+    "passenerErrorReq":  "Cancel",
+    "passenerSuccessReq": "Save"
+}
