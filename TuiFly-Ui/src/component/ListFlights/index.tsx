@@ -3,7 +3,7 @@ import React, { useContext} from "react";
 import { MyContext } from "../../context";
 
 import DataListFlight from "./DataListFlight";
-import { Box, Grid, Pagination, Skeleton } from "@mui/material";
+import { Box, Card, Grid, Pagination, Skeleton } from "@mui/material";
 import { FlightResponse } from "../../nswag";
 import { canDisplay } from "../../utile";
 
@@ -70,15 +70,14 @@ const ListFlights = () => {
        </>
       )}
       {isLoading && (
+        <Box width="100%" sx={{display:"flex",alignItems:'center',justifyContent:'center'}}>
         <Skeleton
           variant="rectangular"
-          width="100%"
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        ></Skeleton>
+          width="30%" height={300} >
+          <Card sx={{height:400,display:'flex',alignContent:'center',justifyContent:'center'}}>
+
+          </Card>
+        </Skeleton></Box>
       )}
     </div>
   );

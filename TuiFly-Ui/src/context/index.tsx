@@ -12,7 +12,7 @@ export interface IMyContext {
   searchFlight?: IFlightObject;
   flightReserve?: FlightResponse;
   isLoading?: boolean;
-  snackBar?:ISnackbar;
+  snackBar?: ISnackbar;
   reservations?: PassengerRequest[];
   handleInitiaEnv?: () => void;
   handleChangeCities: (newCities: Array<ICities>) => void;
@@ -22,7 +22,7 @@ export interface IMyContext {
   handleSearchFlights: (flightSearch: IFlightObject | undefined) => void;
   handleFlightReserve: (reserveFlight?: FlightResponse) => void;
   handleReservations: (reservations?: PassengerRequest) => void;
-  handleSnackBar:(snackBarData : ISnackbar)=>void;
+  handleSnackBar: (snackBarData: ISnackbar) => void;
   handleLoading: (data: boolean) => void;
 }
 
@@ -42,7 +42,7 @@ export const MyContext = createContext<IMyContext>({
   handleSearchFlights: (flightSearch: IFlightObject | undefined) => {},
   handleFlightReserve: (reserveFlight?: FlightResponse) => {},
   handleReservations: (reservations?: PassengerRequest) => {},
-  handleSnackBar:(snackBarData : ISnackbar)=>{},
+  handleSnackBar: (snackBarData: ISnackbar) => {},
   handleLoading: (data: boolean) => {},
 });
 export interface ISnackbar {
@@ -70,9 +70,9 @@ export const MyContextProvider = ({ children }: IMyContextProvider) => {
   const handleLoading = (data: boolean) => {
     setLoading(data);
   };
-  const handleSnackBar=(snackBarData : ISnackbar)=>{
-    setSnackBar(snackBarData)
-  }
+  const handleSnackBar = (snackBarData: ISnackbar) => {
+    setSnackBar(snackBarData);
+  };
 
   const handleReservations = (reservation?: PassengerRequest) => {
     if (reservation) {
@@ -97,11 +97,12 @@ export const MyContextProvider = ({ children }: IMyContextProvider) => {
   };
 
   const handleFlightList = (listFlight: Array<FlightResponse> | undefined) => {
-    const findFlightCheck = flightList?.find(
-      (item) => item.page === pageNumber
-    );
-    if (!findFlightCheck && flightList) {
-      setFlights([...flightList, { page: pageNumber, list: listFlight }]);
+    if(listFlight && listFlight.length> 0){
+      if (flightList) {
+        setFlights([...flightList, { page: pageNumber, list: listFlight }]);
+      }
+    }else{
+      setFlights([])
     }
   };
 

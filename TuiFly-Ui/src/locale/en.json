@@ -12,6 +12,7 @@
         }
     },
     "search":"Search",
+    "cancel": "Cancel",
     "reserve": {
         "airline": "Air line",
         "flightNumber": {

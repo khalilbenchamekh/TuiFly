@@ -24,7 +24,7 @@ const FlightComponent = () => {
   const [flights, setFlights] = useState<FlightRequest | undefined>({});
   const [datas, setdatas] = useState<ICities[] | undefined>(undefined);
   const [numberPassenger, setNumberPassenger] = useState<number>(1);
-  const {t} = useTranslation()
+  const { t } = useTranslation();
   const {
     cities,
     handleFlightList,
@@ -54,7 +54,7 @@ const FlightComponent = () => {
       ...flights,
       pageNumber: pageNumber,
       pageSize: pageSize,
-      customersCount:numberPassenger
+      customersCount: numberPassenger,
     };
     setErrorMsg({ city: false, time: false });
     const validation = validationForm(obj);
@@ -62,7 +62,7 @@ const FlightComponent = () => {
       setErrorMsg(validation.msg);
     } else {
       try {
-        handleLoading(true)
+        handleLoading(true);
         const res: FlightResponseMainResponse = await flightFindAll(obj);
         const mapper = flightMapper(res);
         handleFlightList(mapper);
@@ -73,7 +73,7 @@ const FlightComponent = () => {
         handleSearchFlights(flightObji);
       } catch (error) {}
     }
-    handleLoading(false)
+    handleLoading(false);
   };
   const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -102,12 +102,18 @@ const FlightComponent = () => {
       }));
     }
   };
-  const champErrorCity = t('searchFormular.errorMessage.City')
 
-  const champErrorTime = t('searchFormular.errorMessage.time')
+  const handleCancel =()=>{
+    setFlights(undefined)
+    setNumberPassenger(1)
+    handleFlightList([])
+  }
+  const champErrorCity = t("searchFormular.errorMessage.City");
+
+  const champErrorTime = t("searchFormular.errorMessage.time");
   return (
     <form onSubmit={handleSubmit}>
-      {datas  ? (
+      {datas ? (
         <Box sx={{ padding: 2 }}>
           <Card
             variant="outlined"
@@ -117,6 +123,12 @@ const FlightComponent = () => {
               <Grid container spacing={2}>
                 <Grid item xs={2}>
                   <Autocomplete
+                    value={
+                      flights?.departureCity
+                        ? { value: flights.departureCity }
+                        : null
+                    }
+                    getOptionLabel={(option) => option.value}
                     sx={{ width: 150 }}
                     filterSelectedOptions
                     filterOptions={filterOptions}
@@ -130,9 +142,8 @@ const FlightComponent = () => {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label={
-                          t('searchFormular.from')
-                        }
+                        value={() => flights?.departureCity}
+                        label={t("searchFormular.from")}
                         name="departureCity"
                         helperText={errorMsg?.city && champErrorCity}
                         error={errorMsg?.city}
@@ -143,6 +154,12 @@ const FlightComponent = () => {
                 </Grid>
                 <Grid item xs={2}>
                   <Autocomplete
+                    value={
+                      flights?.arrivalCity
+                        ? { value: flights.arrivalCity }
+                        : null
+                    }
+                    getOptionLabel={(option) => option.value}
                     sx={{ width: 150 }}
                     filterSelectedOptions
                     filterOptions={filterOptions}
@@ -156,9 +173,7 @@ const FlightComponent = () => {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label={
-                          t('searchFormular.to')
-                        }
+                        label={t("searchFormular.to")}
                         helperText={errorMsg?.city && champErrorCity}
                         error={errorMsg?.city}
                         name="arrivalCity"
@@ -169,12 +184,14 @@ const FlightComponent = () => {
                 </Grid>
                 <Grid item xs={2}>
                   <TextField
-                    sx={{ width: 150 }}
-                    label={
-                      t('searchFormular.timetDep')
+                    value={
+                      flights?.departureDate
+                        ? flights.departureDate
+                        : () => null
                     }
+                    sx={{ width: 150 }}
+                    label={t("searchFormular.timetDep")}
                     type="date"
-                    value={flights?.departureDate}
                     error={errorMsg?.time}
                     name="departureDate"
                     InputLabelProps={{ shrink: true }}
@@ -184,12 +201,12 @@ const FlightComponent = () => {
                 </Grid>
                 <Grid item xs={2}>
                   <TextField
-                    sx={{ width: 150 }}
-                    label={
-                      t('searchFormular.timetRet')
+                    value={
+                      flights?.arrivalDate ? flights.arrivalDate : () => null
                     }
+                    sx={{ width: 150 }}
+                    label={t("searchFormular.timetRet")}
                     type="date"
-                    value={flights?.arrivalDate}
                     error={errorMsg?.time}
                     name="arrivalDate"
                     InputLabelProps={{ shrink: true }}
@@ -208,14 +225,15 @@ const FlightComponent = () => {
                   >
                     {[...Array(9)].map((x, i) => (
                       <MenuItem value={i + 1} key={i}>
-                        {i + 1} {t('passenger.name')}{i+1>1 && "s" }
+                        {i + 1} {t("passenger.name")}
+                        {i + 1 > 1 && "s"}
                       </MenuItem>
                     ))}
                   </Select>
                 </Grid>
                 <Grid
                   item
-                  xs={1}
+                  xs={2}
                   sx={{
                     display: "flex",
                     alignItems: "center",
@@ -223,8 +241,22 @@ const FlightComponent = () => {
                   }}
                 >
                   <Button title="submit" variant="contained" type="submit">
-                 {t('search')}
+                    {t("search")}
                   </Button>
+                  {(flights?.departureCity ||
+                    flights?.arrivalCity ||
+                    flights?.departureDate ||
+                    flights?.arrivalDate || numberPassenger > 1) && (
+                    <Button
+                      title="submit"
+                      variant="contained"
+                      type="submit"
+                      sx={{ marginLeft: 1 }}
+                      onClick={() => handleCancel()}
+                    >
+                      {t("cancel")}
+                    </Button>
+                  )}
                 </Grid>
               </Grid>
             </CardContent>

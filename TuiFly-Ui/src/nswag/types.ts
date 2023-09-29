@@ -1,7 +1,6 @@
 import { FlightRequest, FlightResponse } from ".";
 
 export interface ICities {
-  label: number;
   value: string;
 }
 export interface ILib {
