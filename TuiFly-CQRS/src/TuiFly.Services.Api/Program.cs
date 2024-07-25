@@ -1,5 +1,6 @@
 using TuiFly.Api.Configurations;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration
@@ -20,11 +21,15 @@ builder.Services.AddControllers();
 // Setting DBContexts
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 
+// Setting Localization
+
+builder.Services.ConfigureLocalization(builder.Configuration);
+
 // AutoMapper Settings
 builder.Services.AddAutoMapperConfiguration();
 
 // Swagger Config
-builder.Services.AddSwaggerConfiguration();
+builder.Services.AddSwaggerConfiguration(builder.Configuration);
 
 // Adding MediatR for Domain Events and Notifications
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
@@ -41,6 +46,8 @@ if (app.Environment.IsDevelopment())
 
 app.InitializeDbTestDataAsync();
 
+app.UseLocalization();
+
 app.UseHttpsRedirection();
 
 app.UseRouting();
@@ -49,6 +56,6 @@ app.UseCorsSetup();
 
 app.MapControllers();
 
-app.UseSwaggerSetup();
+app.UseSwaggerSetup(builder.Configuration);
 
 app.Run();

@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  tuifly-app:
+    image: tuifly-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"  # Adapter le port si nécessaire
+      - "44300:443"  # Adapter le port si nécessaire
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=db;Database=TUIFLY;User Id=sa;Password=YourStrongPassword;MultipleActiveResultSets=true
+    depends_on:
+      - db
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - SA_PASSWORD=YourStrongPassword
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"  # Port SQL Server

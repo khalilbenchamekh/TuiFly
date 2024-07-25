@@ -4,7 +4,7 @@
     "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:59223",
-      "sslPort": 44389
+      "sslPort": 55389 // Update to the correct SSL port you intend to use
     }
   },
   "$schema": "http://json.schemastore.org/launchsettings.json",
@@ -41,7 +41,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": "true",
-      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+      "applicationUrl": "https://localhost:5001;http://localhost:5000" // Ensure this matches your HTTPS setup
     }
   }
 }

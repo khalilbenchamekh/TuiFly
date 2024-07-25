@@ -1,30 +1,35 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using TuiFly.Domain.Models.Configuration;
 
 namespace TuiFly.Api.Configurations
 {
     public static class SwaggerConfig
     {
-        public static void AddSwaggerConfiguration(this IServiceCollection services)
+        public static void AddSwaggerConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 
+            var swaggerSettings = new SwaggerSettings();
+            configuration.GetSection("Swagger").Bind(swaggerSettings);
+
             services.AddSwaggerGen(s =>
             {
-                s.SwaggerDoc("v1", new OpenApiInfo
+                s.SwaggerDoc(swaggerSettings.Version, new OpenApiInfo
                 {
-                    Version = "v1",
-                    Title = "TuiFly Project",
-                    Description = "TuiFly API Swagger surface",
+                    Version = swaggerSettings.Version,
+                    Title = swaggerSettings.Title,
+                    Description = swaggerSettings.Description,
                 });
 
-                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                s.AddSecurityDefinition(swaggerSettings.Bearer.Scheme, new OpenApiSecurityScheme
                 {
-                    Description = "Input the JWT like: Bearer {your token}",
-                    Name = "Authorization",
-                    Scheme = "Bearer",
-                    BearerFormat = "JWT",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey
+                    Description = swaggerSettings.Bearer.Description,
+                    Name = swaggerSettings.Bearer.Name,
+                    Scheme = swaggerSettings.Bearer.Scheme,
+                    BearerFormat = swaggerSettings.Bearer.BearerFormat,
+                    In = Enum.Parse<ParameterLocation>(swaggerSettings.Bearer.In, true),
+                    Type = Enum.Parse<SecuritySchemeType>(swaggerSettings.Bearer.Type, true)
                 });
 
                 s.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -35,24 +40,26 @@ namespace TuiFly.Api.Configurations
                             Reference = new OpenApiReference
                             {
                                 Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
+                                Id = swaggerSettings.Bearer.Scheme
                             }
                         },
                         new string[] {}
                     }
                 });
-
             });
         }
 
-        public static void UseSwaggerSetup(this IApplicationBuilder app)
+        public static void UseSwaggerSetup(this IApplicationBuilder app, IConfiguration configuration)
         {
             if (app == null) throw new ArgumentNullException(nameof(app));
+
+            var swaggerSettings = new SwaggerSettings();
+            configuration.GetSection("Swagger").Bind(swaggerSettings);
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                c.SwaggerEndpoint(swaggerSettings.Endpoint, swaggerSettings.Version);
             });
         }
     }

@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Moq;
 using Swashbuckle.AspNetCore.Swagger;
 using TuiFly.Api.Configurations;
 using Xunit;
+
 namespace TuiFly.Api.UnitTests.Configuration
 {
     public class SwaggerConfigTests
@@ -14,19 +16,30 @@ namespace TuiFly.Api.UnitTests.Configuration
         {
             // Arrange
             var services = new ServiceCollection();
-            // Add the required services for API documentation
             services.AddLogging(); // Register the ILoggerFactory
-                                   // Create a mock IWebHostEnvironment
             var mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
-
-            // Add the mock IWebHostEnvironment to the services collection
             services.AddSingleton(mockWebHostEnvironment.Object);
-
-            // Add the mock IWebHostEnvironment to the services collection
             services.AddControllers();
 
-            // Add Swagger configuration
-            services.AddSwaggerConfiguration();
+            // Create in-memory configuration
+            var configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection(new Dictionary<string, string>
+                {
+                    { "Swagger:Version", "v1" },
+                    { "Swagger:Title", "TuiFly Project" },
+                    { "Swagger:Description", "TuiFly API Swagger surface" },
+                    { "Swagger:Endpoint", "/swagger/v1/swagger.json" },
+                    { "Swagger:Bearer:Description", "Input the JWT like: Bearer {your token}" },
+                    { "Swagger:Bearer:Name", "Authorization" },
+                    { "Swagger:Bearer:Scheme", "Bearer" },
+                    { "Swagger:Bearer:BearerFormat", "JWT" },
+                    { "Swagger:Bearer:In", "Header" },
+                    { "Swagger:Bearer:Type", "ApiKey" }
+                })
+                .Build();
+
+            // Add Swagger configuration with the configuration parameter
+            services.AddSwaggerConfiguration(configuration);
 
             // Act
             var serviceProvider = services.BuildServiceProvider();
